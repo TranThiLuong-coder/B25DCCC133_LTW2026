@@ -9,13 +9,14 @@ const StudentList = ({ students, onDelete }) => {
           <th>Họ tên</th>
           <th>Điểm</th>
           <th>Lớp</th>
+          <th>Xếp loại</th>
           <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
         {students.length === 0 ? (
           <tr>
-            <td colSpan="5">Không có sinh viên nào</td>
+            <td colSpan="6">Không có sinh viên nào</td>
           </tr>
         ) : (
           students.map((student) => (

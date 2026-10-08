@@ -22,6 +22,7 @@ const App = () => {
 
   const filteredStudents = students.filter((s) => {
     if (filter === 'good') return s.score >= 8
+    if (filter === 'average') return s.score >= 5 && s.score < 8
     if (filter === 'fail') return s.score < 5
     return true
   })
@@ -38,6 +39,7 @@ const App = () => {
       <div>
         <button onClick={() => setFilter('all')}>Tất cả</button>
         <button onClick={() => setFilter('good')}>Giỏi (≥ 8)</button>
+        <button onClick={() => setFilter('average')}>Trung bình (5 - 8)</button>
         <button onClick={() => setFilter('fail')}>Trượt (&lt; 5)</button>
       </div>
 
