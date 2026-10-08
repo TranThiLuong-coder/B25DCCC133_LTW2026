@@ -1,6 +1,6 @@
 import StudentItem from './StudentItem'
 
-const StudentList = ({ students }) => {
+const StudentList = ({ students, onDelete }) => {
   return (
     <table border="1">
       <thead>
@@ -13,9 +13,15 @@ const StudentList = ({ students }) => {
         </tr>
       </thead>
       <tbody>
-        {students.map((student) => (
-          <StudentItem key={student.id} student={student} />
-        ))}
+        {students.length === 0 ? (
+          <tr>
+            <td colSpan="5">Không có sinh viên nào</td>
+          </tr>
+        ) : (
+          students.map((student) => (
+            <StudentItem key={student.id} student={student} onDelete={onDelete} />
+          ))
+        )}
       </tbody>
     </table>
   )

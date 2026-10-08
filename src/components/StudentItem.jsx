@@ -1,4 +1,4 @@
-const StudentItem = ({ student }) => {
+const StudentItem = ({ student, onDelete }) => {
   const { id, name, score, class: className } = student
 
   return (
@@ -8,7 +8,7 @@ const StudentItem = ({ student }) => {
       <td>{score}</td>
       <td>{className}</td>
       <td>
-        <button>Xóa</button>
+        <button onClick={() => onDelete(id)}>Xóa</button>
       </td>
     </tr>
   )
