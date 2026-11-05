@@ -74,3 +74,94 @@ td {
   gap: 16px;
   margin: 16px 0;
 }
+
+.status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.status-bar p {
+  margin: 0;
+}
+
+.time.low {
+  color: #dc2626;
+}
+
+.hearts {
+  color: #dc2626;
+}
+
+.question-meta {
+  color: #555;
+}
+
+.answer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.answer-btn {
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  color: #000;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.answer-btn:disabled {
+  cursor: not-allowed;
+  color: #000;
+}
+
+.answer-btn.chosen {
+  background: #fde047;
+}
+
+.answer-btn.correct {
+  background: #4ade80;
+}
+
+.answer-btn.wrong {
+  background: #f87171;
+}
+
+.progress-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #d1d5db;
+  border: 2px solid transparent;
+  border-radius: 4px;
+}
+
+.cell.correct {
+  background: #4ade80;
+}
+
+.cell.wrong {
+  background: #f87171;
+}
+
+.cell.skipped {
+  background: #fb923c;
+}
+
+.cell.current {
+  border-color: #000;
+}
