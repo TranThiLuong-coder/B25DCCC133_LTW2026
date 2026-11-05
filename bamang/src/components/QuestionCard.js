@@ -1,7 +1,7 @@
 import { POINTS, LEVELS, LETTERS, formatScore } from '../data';
 import AnswerButton from './AnswerButton';
 
-const QuestionCard = ({ question, index, total, status, selected, onSelect }) => {
+const QuestionCard = ({ question, index, total, status, selected, hidden, onSelect }) => {
   const getState = (i) => {
     if (status === 'locked') return i === selected ? 'chosen' : '';
     if (status === 'revealed') {
@@ -25,6 +25,7 @@ const QuestionCard = ({ question, index, total, status, selected, onSelect }) =>
             text={option}
             state={getState(i)}
             disabled={status !== 'answering'}
+            hidden={hidden.includes(i)}
             onClick={() => onSelect(i)}
           />
         ))}

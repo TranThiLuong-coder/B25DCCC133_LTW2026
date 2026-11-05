@@ -5,8 +5,11 @@ import { calcScore } from '../utils';
 import QuestionCard from '../components/QuestionCard';
 import StatusBar from '../components/StatusBar';
 import ProgressBar from '../components/ProgressBar';
+import Helpers from '../components/Helpers';
 
-const Play = ({ playerName, questions }) => {
+const KEYS = ['a', 'b', 'c', 'd'];
+
+const Play = ({ playerName, questions, addRecord }) => {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState([]);
@@ -14,6 +17,8 @@ const Play = ({ playerName, questions }) => {
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
   const [status, setStatus] = useState('answering');
   const [selected, setSelected] = useState(null);
+  const [hidden, setHidden] = useState([]);
+  const [used, setUsed] = useState({ fifty: false, skip: false, life: false });
 
   const total = questions.length;
   const current = questions[index];
@@ -21,15 +26,18 @@ const Play = ({ playerName, questions }) => {
 
   const finish = (finalResults, finalLives, reason) => {
     const finalScore = calcScore(finalResults, questions).score;
+    const correctCount = finalResults.filter((r) => r === 'correct').length;
+    addRecord({
+      id: Date.now(),
+      name: playerName,
+      score: finalScore,
+      correctCount,
+      livesLeft: finalLives,
+      playedAt: new Date().toLocaleString('vi-VN'),
+    });
     navigate('/result', {
       replace: true,
-      state: {
-        name: playerName,
-        score: finalScore,
-        correctCount: finalResults.filter((r) => r === 'correct').length,
-        livesLeft: finalLives,
-        reason,
-      },
+      state: { name: playerName, score: finalScore, correctCount, livesLeft: finalLives, reason },
     });
   };
 
@@ -58,12 +66,38 @@ const Play = ({ playerName, questions }) => {
     }
     setIndex(index + 1);
     setSelected(null);
+    setHidden([]);
     setStatus('answering');
+  };
+
+  const handleFifty = () => {
+    const wrongIndexes = current.options.map((_, i) => i).filter((i) => i !== current.answer);
+    const shuffled = [...wrongIndexes].sort(() => Math.random() - 0.5);
+    setHidden(shuffled.slice(0, 2));
+    setUsed({ ...used, fifty: true });
+  };
+
+  const handleSkip = () => {
+    const newResults = [...results, 'skipped'];
+    setUsed({ ...used, skip: true });
+    if (index + 1 >= total) {
+      finish(newResults, lives, 'completed');
+      return;
+    }
+    setResults(newResults);
+    setIndex(index + 1);
+    setHidden([]);
+  };
+
+  const handleLife = () => {
+    if (lives >= MAX_LIVES) return;
+    setLives(lives + 1);
+    setUsed({ ...used, life: true });
   };
 
   useEffect(() => {
     if (status !== 'answering') return undefined;
-    const timer = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    const timer = setInterval(() => setTimeLeft((t) => Math.max(t - 1, 0)), 1000);
     return () => clearInterval(timer);
   }, [status]);
 
@@ -78,20 +112,47 @@ const Play = ({ playerName, questions }) => {
     return () => clearTimeout(timer);
   }, [status]);
 
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const i = KEYS.indexOf(e.key.toLowerCase());
+      if (i === -1 || status !== 'answering' || hidden.includes(i)) return;
+      handleSelect(i);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [status, hidden]);
+
+  useEffect(() => {
+    document.title = `Câu ${index + 1}/${total} – còn ${lives} mạng`;
+    return () => {
+      document.title = 'Thử thách 3 mạng';
+    };
+  }, [index, lives, total]);
+
   if (!playerName.trim()) {
     return <Navigate to="/" replace />;
   }
 
   return (
     <div>
-      <StatusBar timeLeft={Math.max(timeLeft, 0)} lives={lives} score={score} streak={streak} />
+      <StatusBar timeLeft={timeLeft} lives={lives} score={score} streak={streak} />
       <QuestionCard
         question={current}
         index={index}
         total={total}
         status={status}
         selected={selected}
+        hidden={hidden}
         onSelect={handleSelect}
+      />
+      <Helpers
+        status={status}
+        lives={lives}
+        used={used}
+        onFifty={handleFifty}
+        onSkip={handleSkip}
+        onLife={handleLife}
       />
       <ProgressBar results={results} current={index} total={total} />
     </div>

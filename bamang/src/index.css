@@ -165,3 +165,13 @@ td {
 .cell.current {
   border-color: #000;
 }
+
+.helpers {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.answer-btn.hidden-answer {
+  visibility: hidden;
+}
