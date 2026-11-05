@@ -24,7 +24,7 @@ h1 {
   color: #2c3e50;
 }
 
-/* Form nhập */
+
 form {
   display: flex;
   flex-wrap: wrap;
@@ -37,7 +37,7 @@ form p {
   flex-basis: 100%;
   margin: 0;
   padding: 8px;
-  background: #fdecea;
+  background: #a5ece6;
   border-radius: 6px;
 }
 
@@ -51,7 +51,7 @@ input {
 }
 
 input:focus {
-  border-color: #3b82f6;
+  border-color: pink;
 }
 
 button {
@@ -68,7 +68,7 @@ button:hover {
   background: #eef1f5;
 }
 
-/* Nút Thêm: xanh lá */
+
 form button {
   background: #2e9e5b;
   border-color: #2e9e5b;
@@ -79,7 +79,7 @@ form button:hover {
   background: #27874d;
 }
 
-/* Nút lọc: cùng một kiểu */
+
 .app > div {
   display: flex;
   justify-content: center;
@@ -87,7 +87,7 @@ form button:hover {
   margin-bottom: 14px;
 }
 
-/* Dòng thống kê */
+
 .app > p {
   margin: 0 0 18px;
   padding: 10px;
@@ -97,7 +97,7 @@ form button:hover {
   font-weight: 600;
 }
 
-/* Bảng */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -124,7 +124,7 @@ tbody tr:hover {
   background: #eef3fb;
 }
 
-/* Nút Xóa: đỏ */
+
 td button {
   padding: 5px 14px;
   background: #d9534f;
@@ -136,7 +136,7 @@ td button:hover {
   background: #c9302c;
 }
 
-/* Nhãn xếp loại */
+
 .rank {
   display: inline-block;
   min-width: 90px;
